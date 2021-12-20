@@ -1,0 +1,56 @@
+---
+# tasks file for task3
+- name: install httpd
+  yum:
+    name: httpd
+    update_cache: true
+    state: "{{ httpd_package }}"
+  become: true
+
+- name: httpd enabled and running
+  service:
+    name: httpd
+    state: "{{ httpd_state }}"
+    enabled: "{{ httpd_enabled }}"
+  become: true
+
+- name: copy file
+  template:
+    src: files/index.html
+    dest: /var/www/html/index.html
+    mode: 0755
+  become: true
+  notify: restart httpd
+
+- name: firewalld is installed
+  yum:
+    name: firewalld
+    update_cache: true
+    state: "{{ firewalld_package }}"
+  become: true
+
+- name: firewalld enabled and running
+  service:
+    name: firewalld
+    state: "{{ firewalld_state }}"
+    enabled: "{{ firewalld_enabled }}"
+  become: true
+
+- name: ssh enabled
+  firewalld:
+    service: ssh
+    state: enabled
+    permanent: true
+    immediate: true
+  become: true
+  notify: restart firewalld
+
+- name: http port
+  firewalld:
+    port: "{{ httpd_port }}/tcp"
+    state: enabled
+    permanent: true
+    immediate: true
+  become: true
+  notify: restart firewalld
+
