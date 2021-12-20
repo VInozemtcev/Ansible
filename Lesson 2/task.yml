@@ -1,0 +1,29 @@
+---
+- hosts: node1.example.com
+  become: true
+  gather_facts: false
+  vars_files:
+    - secret.yml
+
+  tasks:
+    - name: Creating Users
+      user:
+        name: "{{ item.name }}"
+        comment: "{{ item.comment }}"
+        create_home: yes
+        home: "{{ item.home }}"
+        password: "{{ pwd }}"
+        state: present
+
+      loop:
+        - name: Alice
+          comment: Alice@example.com
+          home: /home/Alice
+
+        - name: Bob
+          comment: Bob@example.com
+          home: /home/Bob
+
+        - name: Carol
+          comment: Carol@example.com
+          home: /home/Carol
