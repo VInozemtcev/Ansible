@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: install httpd
+      yum: name=httpd update_cache=true state=present
+
+    - name: httpd is enabled and running
+      service: name=httpd state=started enabled=true
+    
+    - name: file creation
+      copy: src="files/index.html" dest="/var/www/html/index.html" mode=0755
+    
+    - name: install firewalld
+      yum: name=firewalld update_cache=true state=present
+
+    - name: enable firewalld 
+      service: name=firewalld state=started enabled=true
+    
+    - name: enable firewalld http 
+      firewalld: service=http state=enabled permanent=true immediate=true
+
+    - name: enable firewalld ssh
+      firewalld: service=ssh state=enabled permanent=true immediate=true
+
+    - name: reload httpd
+      service: name=httpd state=reloaded
+    
+    - name: reload firewalld
+      service: name=firewalld state=reloaded
+

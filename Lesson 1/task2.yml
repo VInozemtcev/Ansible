@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: remove httpd
+      yum: name=httpd state=absent
+  
+    - name: remove file
+      file: path="/var/www/html/index.html" state=absent
+        
+    - name: Disable firewalld http 
+      firewalld: service=http state=disabled permanent=true immediate=true
+   
+    - name: reload firewalld
+      service: name=firewalld state=reloaded
