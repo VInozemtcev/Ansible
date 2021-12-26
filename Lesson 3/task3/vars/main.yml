@@ -1,0 +1,16 @@
+---
+# vars file for task3
+# httpd 
+httpd_port: 80
+
+httpd_enabled: true
+httpd_restart: reloaded
+httpd_package: present
+httpd_state: started
+
+
+# firewalld 
+firewalld_enabled: true
+firewalld_restart: reloaded
+firewalld_package: present
+firewalld_state: started
