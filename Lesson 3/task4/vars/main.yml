@@ -1,0 +1,13 @@
+---
+# vars file for task4
+vsftpd_ports: 20-21
+vsftpd_enabled: true
+vsftpd_restart: restarted
+vsftpd_package: present
+vsftpd_state: started
+
+firewalld_enabled: true
+firewalld_restart: reloaded
+firewalld_package: present
+firewalld_state: started
+

@@ -1,0 +1,13 @@
+---
+# handlers file for task4
+- name: restart vsftpd
+  service:
+    name: vsftpd
+    state: "{{ vsftpd_restart }}"
+  become: true
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: "{{ firewalld_restart }}"
+  become: true
